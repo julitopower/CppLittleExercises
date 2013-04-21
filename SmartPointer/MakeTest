@@ -1,0 +1,20 @@
+# Inclue the main makefile to avoid redefinition of stuff
+include Makefile
+
+# Include the tst directory as objects to use during linking
+OBJS_T = $(SRCS:.cpp=.o) $(TST:.cpp=.o)
+
+# Application name _test
+APP = $(PROJ)_test.exei
+
+# Notice the use of -DTEST. Your main method in the application
+# has to be protected with an ifndef TEST
+CFLAGS = -c -g -Wall -DTEST
+
+all_t: $(APP)
+	./$(APP)
+
+$(APP): $(OBJS_T)
+	$(CC) $(LDFLAGS) $(OBJS_T) -o $(APP) $(LIBS)
+
+

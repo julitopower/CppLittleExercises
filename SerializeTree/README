@@ -1,0 +1,8 @@
+Tech Demo
+==========
+
+Typical interview question. Give an n-ary tree, implement serializa/deserialize functionality. 
+The tree must be serializaed to a TEXT file, and we must be able to re-create a tree from 
+its serialized form.
+
+This project uses c++11

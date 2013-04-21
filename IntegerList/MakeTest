@@ -1,0 +1,13 @@
+include Makefile
+
+OBJS_T = $(SRCS:.cpp=.o) $(TST:.cpp=.o)
+APP = $(PROJ)_test.exe
+CFLAGS = -c -g -Wall -DTEST
+
+all_t: $(APP)
+	./$(APP)
+
+$(APP): $(OBJS_T)
+	$(CC) $(LDFLAGS) $(OBJS_T) -o $(APP) $(LIBS)
+
+

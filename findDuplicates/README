@@ -1,0 +1,4 @@
+This program find duplicates in to lists of integers:
+* It demonstrates the usage of "auto" keywork in c++11
+* It demosntrates the use of auto_ptr as a way to get free
+  memory management
