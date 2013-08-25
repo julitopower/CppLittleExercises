@@ -1,0 +1,7 @@
+TestingQT4*
+*.o
+*.a
+*.cmake
+CMake*
+*Testing*
+*.cbp
