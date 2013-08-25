@@ -79,14 +79,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/julio/cpp/CppLittleExercises/findDuplicates/CMakeFiles /home/julio/cpp/CppLittleExercises/findDuplicates/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(CMAKE_COMMAND) -E cmake_progress_start /home/julio/cpp/CppLittleExercises/findDuplicates/CMakeFiles /home/julio/cpp/CppLittleExercises/findDuplicates/tst/CMakeFiles/progress.marks
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f CMakeFiles/Makefile2 tst/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/julio/cpp/CppLittleExercises/findDuplicates/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f CMakeFiles/Makefile2 tst/clean
 .PHONY : clean
 
 # The main clean target
@@ -95,57 +95,80 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f CMakeFiles/Makefile2 tst/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f CMakeFiles/Makefile2 tst/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named findDuplicates
+# Convenience name for target.
+tst/CMakeFiles/main.dir/rule:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f CMakeFiles/Makefile2 tst/CMakeFiles/main.dir/rule
+.PHONY : tst/CMakeFiles/main.dir/rule
 
-# Build rule for target.
-findDuplicates: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 findDuplicates
-.PHONY : findDuplicates
-
-# fast build rule for target.
-findDuplicates/fast:
-	$(MAKE) -f src/CMakeFiles/findDuplicates.dir/build.make src/CMakeFiles/findDuplicates.dir/build
-.PHONY : findDuplicates/fast
-
-#=============================================================================
-# Target rules for targets named findDuplicatesLib
-
-# Build rule for target.
-findDuplicatesLib: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 findDuplicatesLib
-.PHONY : findDuplicatesLib
-
-# fast build rule for target.
-findDuplicatesLib/fast:
-	$(MAKE) -f src/CMakeFiles/findDuplicatesLib.dir/build.make src/CMakeFiles/findDuplicatesLib.dir/build
-.PHONY : findDuplicatesLib/fast
-
-#=============================================================================
-# Target rules for targets named main
-
-# Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 main
+# Convenience name for target.
+main: tst/CMakeFiles/main.dir/rule
 .PHONY : main
 
 # fast build rule for target.
 main/fast:
-	$(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/build
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/build
 .PHONY : main/fast
+
+FindDuplicatesTest.o: FindDuplicatesTest.cpp.o
+.PHONY : FindDuplicatesTest.o
+
+# target to build an object file
+FindDuplicatesTest.cpp.o:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/FindDuplicatesTest.cpp.o
+.PHONY : FindDuplicatesTest.cpp.o
+
+FindDuplicatesTest.i: FindDuplicatesTest.cpp.i
+.PHONY : FindDuplicatesTest.i
+
+# target to preprocess a source file
+FindDuplicatesTest.cpp.i:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/FindDuplicatesTest.cpp.i
+.PHONY : FindDuplicatesTest.cpp.i
+
+FindDuplicatesTest.s: FindDuplicatesTest.cpp.s
+.PHONY : FindDuplicatesTest.s
+
+# target to generate assembly for a file
+FindDuplicatesTest.cpp.s:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/FindDuplicatesTest.cpp.s
+.PHONY : FindDuplicatesTest.cpp.s
+
+Main.o: Main.cpp.o
+.PHONY : Main.o
+
+# target to build an object file
+Main.cpp.o:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/Main.cpp.o
+.PHONY : Main.cpp.o
+
+Main.i: Main.cpp.i
+.PHONY : Main.i
+
+# target to preprocess a source file
+Main.cpp.i:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/Main.cpp.i
+.PHONY : Main.cpp.i
+
+Main.s: Main.cpp.s
+.PHONY : Main.s
+
+# target to generate assembly for a file
+Main.cpp.s:
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(MAKE) -f tst/CMakeFiles/main.dir/build.make tst/CMakeFiles/main.dir/Main.cpp.s
+.PHONY : Main.cpp.s
 
 # Help Target
 help:
@@ -154,11 +177,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... main"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... findDuplicates"
-	@echo "... findDuplicatesLib"
-	@echo "... main"
+	@echo "... FindDuplicatesTest.o"
+	@echo "... FindDuplicatesTest.i"
+	@echo "... FindDuplicatesTest.s"
+	@echo "... Main.o"
+	@echo "... Main.i"
+	@echo "... Main.s"
 .PHONY : help
 
 
@@ -170,6 +197,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/julio/cpp/CppLittleExercises/findDuplicates && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
