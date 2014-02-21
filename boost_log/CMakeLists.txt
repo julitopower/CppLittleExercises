@@ -1,0 +1,7 @@
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
+PROJECT(BOOST_LOG)
+
+include_directories(/tmp/include/)
+
+
+ADD_SUBDIRECTORY(src)
