@@ -1,22 +1,36 @@
-#ifndef TREE_H
-#define TREE_H
-#include <list>
+#ifndef TREE_HPP
+#define TREE_HPP
+
+#include <vector>
 #include <memory>
-#include <string>
+#include <ostream>
+
+class TreeNode;
+using TreeNodePtr = std::unique_ptr<TreeNode>;
 
 class TreeNode {
-	private:
-		std::list<std::auto_ptr<TreeNode>> children;
-		int value;
-	public:
-		TreeNode(int value);
-		void addChild(TreeNode *);
-		void addChild(int value);
-		void addChild(TreeNode &);
-		std::list<std::auto_ptr<TreeNode>> &  getChildren();
-		~TreeNode();
-		void print();
-		static TreeNode & read(std::string tree);
+public:
+
+  // Alias for payload type
+  using type = int;
+
+  // Constructure
+  TreeNode(int value);
+
+  // Value accessor
+  type GetValue() const;
+
+  // Children accessor
+  const std::vector<TreeNodePtr>& GetChildren() const;
+
+  // Children mutator
+  void AddChild(TreeNodePtr&& child);
+private:
+  type m_value;
+  std::vector<TreeNodePtr> m_children;
 };
+
+// Serialize a tree into a stream
+void serialize(const TreeNode& node, std::ostream& os);
 
 #endif
