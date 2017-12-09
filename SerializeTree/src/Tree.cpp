@@ -15,7 +15,20 @@ void TreeNode::AddChild(TreeNodePtr&& child) {
 }
 
 void serialize(const TreeNode& node, std::ostream& os) {
-  
+  /* Algorithm
+
+     queueu = Queue{}
+     write root_children_nb:root_value
+     queue.push(root)
+     while queue is not empty {
+         node = queue.pop()
+         write node.children_nb + :
+         for (child in node.childre()) {
+             write child_children_nb:child_value:
+             queueu.push(child)
+         }
+     }
+  */
 }
 
 

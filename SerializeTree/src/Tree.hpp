@@ -14,7 +14,7 @@ public:
   // Alias for payload type
   using type = int;
 
-  // Constructure
+  // Constructor
   TreeNode(int value);
 
   // Value accessor
