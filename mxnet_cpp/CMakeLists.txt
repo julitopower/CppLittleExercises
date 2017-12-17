@@ -10,7 +10,7 @@ include_directories(
   /media/nvidia/development/sources/incubator-mxnet/mshadow
   /media/nvidia/development/sources/incubator-mxnet/nnvm/include
   /media/nvidia/development/sources/incubator-mxnet/dlpack/include    
-  /media/nvidia/development/sources/incubator-mxnet/cpp-package/incude
+  /media/nvidia/development/sources/incubator-mxnet/cpp-package/include
   )
 
 link_directories(

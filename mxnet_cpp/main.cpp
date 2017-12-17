@@ -3,6 +3,7 @@
 #include <mxnet/storage.h>
 #include <mxnet/ndarray.h>
 #include <mxnet/engine.h>
+#include <mxnet-cpp/operator.h>
 #include <csignal>
 #include <vector>
 
@@ -47,18 +48,18 @@ void print_ndarray(mxnet::NDArray& nd) {
 int main(int argc, char **argv)
 {
   // Generate matrix on the cpu memory. All this code only works on CPU
-  mxnet::NDArray nd{mxnet::TShape{5, 10}, mxnet::Context::CPU()};
+  mxnet::NDArray nd{mxnet::TShape{5, 6}, mxnet::Context::CPU()};
 
   // Initialize with a particular value, and set the vale of (0,0)
   // element. This is to show how to read/write inidividual values.
-  init_ndarray(nd, 3.0f);
+  init_ndarray(nd, 25.0f);
   float* val;
-  AT(nd, 0, 3, val);
+  AT(nd, 0, 2, val);
   *val = 34;
 
-  AT(nd, 0, 0, val)
-  std::cout << *val << std::endl;
-
+  nd =  nd * 2 * 4;
+  nd.WaitToWrite();
+  
   print_ndarray(nd);
   return 0;
 }
