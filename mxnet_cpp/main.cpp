@@ -3,7 +3,6 @@
 #include <mxnet/storage.h>
 #include <mxnet/ndarray.h>
 #include <mxnet/engine.h>
-#include <mxnet-cpp/operator.h>
 #include <csignal>
 #include <vector>
 

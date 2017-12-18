@@ -21,5 +21,8 @@ link_directories(
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(julio main.cpp)
-target_link_libraries(julio mxnet cuda cudart)
+add_executable(mxnet_c_api main.cpp)
+target_link_libraries(mxnet_c_api mxnet cuda cudart)
+
+add_executable(mxnet_cpp main_cpp.cpp)
+target_link_libraries(mxnet_cpp mxnet cuda cudart)
