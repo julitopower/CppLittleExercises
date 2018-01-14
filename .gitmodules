@@ -1,0 +1,3 @@
+[submodule "cpp_matrix_python_wrapper/pybind11"]
+	path = cpp_matrix_python_wrapper/pybind11
+	url = https://github.com/pybind/pybind11.git
