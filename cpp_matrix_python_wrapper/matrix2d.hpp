@@ -94,7 +94,7 @@ namespace matrix {
      * buffer, the data buffer
      * rows, the number of rows in the matrix
      * cols, the number of columns in the matrix*/
-    Matrix2d(T* buffer, std::size_t rows, std::size_t cols) :
+    Matrix2d(T* buffer, std::int64_t rows, std::int64_t cols) :
       data_{buffer}, cols_{cols}, rows_{rows}{}
 
     /*
@@ -128,8 +128,8 @@ namespace matrix {
     
   private:
     T* data_;
-    std::size_t cols_;
-    std::size_t rows_;
+    std::int64_t cols_;
+    std::int64_t rows_;
   };
 
   template<typename T>
@@ -138,7 +138,7 @@ namespace matrix {
     for (auto it = matrix.begin() ; it != matrix_end ; ++it) {
       const auto& vector_end = it.get().end();
       for (auto itv = it.get().begin() ; itv != vector_end ; ++itv) {
-	os << *itv;
+	os << *itv << ", ";
       }
       os << std::endl;
     }
