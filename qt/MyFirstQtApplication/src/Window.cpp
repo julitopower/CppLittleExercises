@@ -1,15 +1,18 @@
 #include "Window.hpp"
 #include <iostream>
+#include "QAction"
+#include "QMenuBar"
 
 namespace ui {
 
 Window::Window() {
-    std::cout << "Constructing Window" << endl;
+    std::cout << "Constructing Window" << std::endl;
 
     setWindowTitle("MyQTWindow");
     setGeometry(100,100,600,600);
     createActions();
     createMenus();
+    std::cout << "Created menus" << std::endl;
 }
 
 void Window::createActions() {
@@ -27,6 +30,7 @@ void Window::createMenus() {
 }
 
 void Window::exit() {
+    std::cout << "Closing the window" << std::endl;
     this->close();
 }
 

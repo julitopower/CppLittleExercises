@@ -1,5 +1,4 @@
 set(HDS Window.hpp)
 set(SRC main.cpp Window.cpp)
-QT4_WRAP_CPP(HEADERS_MOC ${HDS})
-add_executable(${PROJECT_NAME} ${SRC} ${HDS} ${HEADERS_MOC})
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${QT_LIBRARIES})
+add_executable(${PROJECT_NAME} ${SRC})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} Qt5::Widgets Qt5::Core)

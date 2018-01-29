@@ -1,7 +1,7 @@
 #include <iostream>
-#include <Qt/QtNetwork>
 #include "Window.hpp"
 #include "QtCore"
+#include "QApplication"
 
 using namespace std;
 

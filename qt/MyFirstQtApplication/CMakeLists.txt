@@ -1,7 +1,17 @@
 project(MyFirstQtApplication)
-cmake_minimum_required(VERSION 2.8)
-find_package(Qt4 REQUIRED)
-INCLUDE(${QT_USE_FILE})
+cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_CXX_STANDARD 11)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+
+message(STATUS ${Qt5Widgets_INCLUDE_DIRS})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 SET(QT_USE_QTNETWORK TRUE)
 SET(QT_USE_QTOPENGL TRUE)

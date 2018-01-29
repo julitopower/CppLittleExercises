@@ -1,11 +1,11 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
-#include <QtCore>
-#include <QtGui>
+
+#include <QMainWindow>
 
 namespace ui {
 
-class Window:public QMainWindow{
+class Window : public QMainWindow{
     Q_OBJECT
 
 public:
