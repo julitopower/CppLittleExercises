@@ -1,7 +1,9 @@
 #ifndef MATRIX2D_H
 #define MATRIX2D_H
 
+#include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <vector>
 
 namespace matrix {
@@ -96,15 +98,24 @@ namespace matrix {
      * \param buffer the data buffer
      * \param rows the number of rows in the matrix
      * \param cols the number of columns in the matrix
+     * \param owns_buffer Indicate if this Matrix owns the memory in the buffer. Memory will
+     *        be released upon Matrix2d destruction if it owns the memory.
      */
-    Matrix2d(T* buffer, std::int64_t rows, std::int64_t cols) :
-      data_{buffer}, cols_{cols}, rows_{rows}{}
+     Matrix2d(T buffer[],
+	      std::int64_t rows,
+	      std::int64_t cols,
+	      bool owns_buffer = false) :
+	  data_{buffer}, cols_{cols}, rows_{rows}, owns_buffer_{owns_buffer}{}
 
     /*!
      * \brief The matrix doesn't own the buffer, so here we make sure
      * the destructor does nothing.
      */
-    ~Matrix2d() {}
+    ~Matrix2d() {
+	if (owns_buffer_ && data_ != nullptr) {
+	    delete[] data_;
+	}
+    }
 
     /*!
      * \brief Get an iterator pointing to the first row in the matrix
@@ -136,14 +147,54 @@ namespace matrix {
       return VectorViewIterator(data_ + rows_ * cols_, cols_);
     }
 
+    /*!
+     * \brief Get the shape of the array <rows, cols>
+     */
     std::vector<std::size_t> shape() const {
 	return {cols_, rows_};
     }
-    
+
+    /*!
+     * \brief Generate a Matrix2d with random values
+     *
+     * Values are in the range [0, RAND_MAX]
+     */
+    static Matrix2d<T> random(std::size_t rows, std::size_t cols, int seed = 42) {
+	srand(seed);
+	return fill_matrix_with(rows, cols, []() { return static_cast<T>(rand()); });	
+    }
+
+    /*! 
+     * \brief Generate a Matrix2d filled with ones
+     */
+    static Matrix2d<T> ones(std::size_t rows, std::size_t cols) {
+	return fill_matrix_with(rows, cols, []() { return static_cast<T>(1); });
+    }
+
+    /*! 
+     * \brief Generate a Matrix2d filled with zeros
+     */
+    static Matrix2d<T> zeros(std::size_t rows, std::size_t cols) {
+	return fill_matrix_with(rows, cols, []() { return static_cast<T>(0); });
+    }
+      
   private:
     T* data_;
     std::int64_t cols_;
     std::int64_t rows_;
+    bool owns_buffer_;
+
+    template <typename FUNC>
+    static Matrix2d<T> fill_matrix_with(std::size_t rows,
+					std::size_t cols,
+					FUNC value_generator) {
+	const std::size_t size{rows * cols};
+	auto buffer = std::make_unique<T[]>(rows * cols);
+	for (auto i = 0U ; i < size ; ++i) {
+	    buffer[i] = value_generator();
+	}	
+	return Matrix2d<T>(buffer.release(), rows, cols, true);
+    }            
   };
 
   template<typename T>

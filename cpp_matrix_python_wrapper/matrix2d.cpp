@@ -4,8 +4,8 @@
 #include "matrix2d.hpp"
 
 int main(int argc, char** argv) {
-  constexpr std::size_t size = 1 << 24;
-  constexpr std::size_t cols = 2000;
+  constexpr std::size_t size = 1 << 8;
+  constexpr std::size_t cols = 4;
   constexpr std::size_t rows = size / cols;
   
   std::vector<float> data (size, 1.0f);
@@ -22,6 +22,18 @@ int main(int argc, char** argv) {
   }
 
   std::cout << matrix << std::endl;
+
+  // Test random matrix generation routine
+  auto random_matrix = matrix::Matrix2d<double>::random(rows, cols);
+  std::cout << random_matrix << std::endl;
+
+  // Test ones
+  auto ones_matrix = matrix::Matrix2d<double>::ones(rows, cols);
+  std::cout << ones_matrix << std::endl;
+
+  // Test zeros
+  auto zeros_matrix = matrix::Matrix2d<double>::zeros(rows, cols);
+  std::cout << zeros_matrix << std::endl;    
   
   return 0;
 }
