@@ -2,6 +2,7 @@
 #define MATRIX2D_H
 
 #include <iostream>
+#include <vector>
 
 namespace matrix {
 
@@ -133,7 +134,11 @@ namespace matrix {
      */      
     const VectorViewIterator end() const {
       return VectorViewIterator(data_ + rows_ * cols_, cols_);
-    }    
+    }
+
+    std::vector<std::size_t> shape() const {
+	return {cols_, rows_};
+    }
     
   private:
     T* data_;
