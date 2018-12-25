@@ -37,7 +37,7 @@ target_link_libraries(matrix2d_lib)
 # THE PYTHON WRAPPER
 ################################################################################
 pybind11_add_module(cpp_matrix py_matrix.cpp)
-target_link_libraries(cpp_matrix PRIVATE matrix2d_lib ${BLAS_LIBRARIES})
+target_link_libraries(cpp_matrix PRIVATE matrix2d_lib ${CBLAS})
 
 ################################################################################
 # This is another way to build the Python wrapper using CMake and Pybind11. It
