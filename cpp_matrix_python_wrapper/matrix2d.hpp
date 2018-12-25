@@ -5,7 +5,12 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <stdexcept>
+#include <typeinfo>
 
+extern "C" {
+#include <cblas.h>
+}
 namespace matrix {
 
   /*
@@ -30,7 +35,6 @@ namespace matrix {
     // Full buffer access, for semantic convenience
     T* data() { return data_; }
     const T* data() const { return data_; }
-
   private:
     T* data_;
     T* data_end_;
@@ -102,10 +106,10 @@ namespace matrix {
      *        be released upon Matrix2d destruction if it owns the memory.
      */
      Matrix2d(T buffer[],
-	      std::int64_t rows,
-	      std::int64_t cols,
+	      std::size_t rows,
+	      std::size_t cols,
 	      bool owns_buffer = false) :
-	  data_{buffer}, cols_{cols}, rows_{rows}, owns_buffer_{owns_buffer}{}
+	 data_{buffer}, rows_{rows}, cols_{cols}, owns_buffer_{owns_buffer}{}
 
     /*!
      * \brief The matrix doesn't own the buffer, so here we make sure
@@ -151,7 +155,7 @@ namespace matrix {
      * \brief Get the shape of the array <rows, cols>
      */
     std::vector<std::size_t> shape() const {
-	return {cols_, rows_};
+	return {rows_, cols_};
     }
 
     /*!
@@ -177,11 +181,19 @@ namespace matrix {
     static Matrix2d<T> zeros(std::size_t rows, std::size_t cols) {
 	return fill_matrix_with(rows, cols, []() { return static_cast<T>(0); });
     }
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Arithmetic operators
+    ////////////////////////////////////////////////////////////////////////////////
+    Matrix2d<T> operator*(const Matrix2d<T>& rhs) {
+	throw std::logic_error{"Operator * not implemented for type " +
+		               std::string{typeid(T).name()}};
+    }
       
   private:
     T* data_;
-    std::int64_t cols_;
-    std::int64_t rows_;
+    std::size_t rows_;
+    std::size_t cols_;      
     bool owns_buffer_;
 
     template <typename FUNC>
@@ -210,6 +222,32 @@ namespace matrix {
     return os;
   }
 
+  template<>
+  Matrix2d<double> Matrix2d<double>::operator*(const Matrix2d<double>& rhs) {
+      const auto M = rows_;
+      const auto N = rhs.shape()[1];
+      const auto K = cols_;
+      const auto alpha = 1.;
+      const auto beta = 0.;
+      auto tmp = Matrix2d::ones(M, N);
+      cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, N, K,
+		  alpha, data_, M, rhs.data_, K, beta, tmp.data_, M);
+      return tmp;
+  }
+
+  template<>
+  Matrix2d<float> Matrix2d<float>::operator*(const Matrix2d<float>& rhs) {
+      const auto M = rows_;
+      const auto N = rhs.shape()[1];
+      const auto K = cols_;
+      const auto alpha = 1.f;
+      const auto beta = 0.f;
+      auto tmp = Matrix2d::ones(M, N);
+      cblas_sgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, M, N, K,
+		  alpha, data_, M, rhs.data_, K, beta, tmp.data_, M);
+      return tmp;
+  }        
+    
 } // namespace matrix
 
 #endif /* MATRIX2D_H */

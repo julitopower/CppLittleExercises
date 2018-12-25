@@ -12,7 +12,8 @@ namespace {
 
   template<typename T>
   inline const matrix::Matrix2d<T> build_matrix(py::array& a) {
-    return matrix::Matrix2d<T>{(T*)a.request().ptr, a.shape(0), a.shape(1)};
+    return matrix::Matrix2d<T>{(T*)a.request().ptr,
+	    static_cast<std::size_t>(a.shape(0)), static_cast<std::size_t>(a.shape(1))};
   }
 
   template<typename T>

@@ -15,8 +15,11 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 ################################################################################
 # SETUP DEPENDENCIES
 ################################################################################
-find_package( PythonInterp 2.7 REQUIRED )
-
+find_package(PythonInterp 2.7 REQUIRED)
+find_library(CBLAS cblas /usr/lib/)
+if(NOT CBLAS)
+  message(FATAL_ERROR "Required library CBLAS ${CBLAS}")
+endif()
 ################################################################################
 # ADD PYBIND 11
 ################################################################################
@@ -26,13 +29,15 @@ add_subdirectory(pybind11)
 # THE ACTUAL TARGETS
 ################################################################################
 add_executable(matrix2d matrix2d.cpp)
+target_link_libraries(matrix2d ${CBLAS})
 add_library(matrix2d_lib matrix2d.cpp)
+target_link_libraries(matrix2d_lib)
 
 ################################################################################
 # THE PYTHON WRAPPER
 ################################################################################
 pybind11_add_module(cpp_matrix py_matrix.cpp)
-target_link_libraries(cpp_matrix PRIVATE matrix2d_lib)
+target_link_libraries(cpp_matrix PRIVATE matrix2d_lib ${BLAS_LIBRARIES})
 
 ################################################################################
 # This is another way to build the Python wrapper using CMake and Pybind11. It
