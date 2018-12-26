@@ -13,14 +13,24 @@ extern "C" {
 }
 namespace matrix {
 
-  /*
-   * Wraps a memory region with a vector like interface. We are only interested in
-   * iterators capabilities
-  */
+  /*!
+   * \brief Wraps a memory region with a vector like interface. 
+   *
+   * A VectorView does not own the buffer's memory. The VectorView can be used
+   * to mutate the underlying data.
+   */
   template<typename T>
   class VectorView {
   public:
+
+    /*!
+     * \brief Build A VectorView on top of the memory buffer.
+     *
+     * Caller must guarantee that size is correct, and that the memory is not
+     * deleted while the VectorView is in use.
+     */
     VectorView(T* buffer, std::size_t size) : data_{buffer}, data_end_{buffer + size} {}
+      
     /*
      * We don't own the memory, so we make sure our destructor does nothing.
      */
