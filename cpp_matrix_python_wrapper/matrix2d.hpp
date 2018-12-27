@@ -122,6 +122,26 @@ namespace matrix {
 	 data_{buffer}, rows_{rows}, cols_{cols}, owns_buffer_{owns_buffer}{}
 
     /*!
+     * \brief Matrix2d is not copiable, because memory ownership becomes very complex
+     *
+     * It is movable instead.
+     */
+    Matrix2d(const Matrix2d& rhs) = delete;
+
+    /*!
+     * \brief Move constructor
+     *
+     * Memory ownership is passed on to the object we move into
+     */
+    Matrix2d(Matrix2d&& rhs) :
+	data_{rhs.data_}, rows_{rhs.rows_}, cols_{rhs.cols_},
+	owns_buffer_{rhs.owns_buffer_} {
+	rhs.owns_buffer_ = false;
+	rhs.data_ = nullptr;
+    }
+
+      
+    /*!
      * \brief The matrix doesn't own the buffer, so here we make sure
      * the destructor does nothing.
      */
@@ -207,7 +227,7 @@ namespace matrix {
     bool owns_buffer_;
 
     template <typename FUNC>
-    static Matrix2d<T> fill_matrix_with(std::size_t rows,
+    static inline Matrix2d<T> fill_matrix_with(std::size_t rows,
 					std::size_t cols,
 					FUNC value_generator) {
 	const std::size_t size{rows * cols};

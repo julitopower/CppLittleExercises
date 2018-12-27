@@ -11,7 +11,7 @@ namespace py = pybind11;
 namespace {
 
   template<typename T>
-  inline const matrix::Matrix2d<T> build_matrix(py::array& a) {
+  inline matrix::Matrix2d<T> build_matrix(py::array& a) {
     return matrix::Matrix2d<T>{(T*)a.request().ptr,
 	    static_cast<std::size_t>(a.shape(0)), static_cast<std::size_t>(a.shape(1))};
   }
@@ -23,7 +23,7 @@ namespace {
 
   template<typename T>
   inline void process_request(py::array& a) {
-    auto m = build_matrix<T>(a);
+    matrix::Matrix2d<T> m{build_matrix<T>(a)};
     std::cout << m << std::endl;
   }
 
