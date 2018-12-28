@@ -1,10 +1,12 @@
-#include <iostream>
-#include <mxnet/base.h>
-#include <mxnet/storage.h>
-#include <mxnet/ndarray.h>
-#include <mxnet/engine.h>
 #include <csignal>
+#include <iostream>
 #include <vector>
+
+#include <mxnet/base.h>
+#include <mxnet/engine.h>
+#include <mxnet/ndarray.h>
+#include <mxnet/storage.h>
+
 
 #define AT(nd, row, col, val)			\
   {						\

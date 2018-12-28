@@ -1,4 +1,5 @@
 #include <vector>
+
 #include <mxnet-cpp/MxNetCpp.h>
 
 mxnet::cpp::NDArray init_array_gpu(const mxnet::cpp::Shape& s, const mx_float init_value) {
@@ -18,18 +19,15 @@ void print_shape(const mxnet::cpp::NDArray& nd) {
 }
 
 int main(int argc, char** argv) {
-  auto iters = (1 << 20);
-  std::cout << "Init" << std::endl;
+  auto iters = (1 << 12);
+  std::cout << "MxNet GPU test program" << std::endl;
   auto nd = init_array_gpu(mxnet::cpp::Shape{10000,20}, 3.1);
-  std::cout << "Init" << std::endl;
   for (auto i = 0U ; i < iters ; ++i) {
     nd *= nd;
     nd.WaitAll();
     nd /= nd;
     nd.WaitAll();    
   }
-
-  std::cout << "Init" << std::endl;  
   
   auto nd2 = nd.Copy(mxnet::cpp::Context::gpu());
   for (auto i = 0U ; i < iters ; ++i) {
