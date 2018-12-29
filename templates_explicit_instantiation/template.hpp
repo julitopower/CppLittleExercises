@@ -7,7 +7,7 @@ public:
   Julio(T data);
   T data();
 private:
-  T _data;
+  T data_;
 };
 
 #endif /* TEMPLATE_H */

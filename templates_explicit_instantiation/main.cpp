@@ -3,6 +3,9 @@
 
 int main(int argc, char** argv) {
 
-  Julio<int> j{3};
-  std::cout << j.data() << std::endl;
+  Julio<int> int_instantiation{3};
+  std::cout << int_instantiation.data() << std::endl;
+
+  Julio<float> float_instantiation{3.8};
+  std::cout << float_instantiation.data() << std::endl;
 }

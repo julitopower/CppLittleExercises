@@ -5,10 +5,10 @@
 
 template <typename T>
 T Julio<T>::data() {
-  return _data;
+  return data_;
 }
 
 template <typename T>
-Julio<T>::Julio(T value) : _data{value} {}
+Julio<T>::Julio(T value) : data_{value} {}
 
 #endif /* TEMPLATE_DEF_H */
