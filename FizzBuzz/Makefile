@@ -15,26 +15,32 @@ PROJ = fizzbuzz
 #   - add -enable-auto-import flag for Cygwin only
 
 CC = g++
+# See: https://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html_chapter/make_6.html#SEC61
 OBJS = $(SRCS:.cpp=.o)
-APP = $(PROJ).exe
+APP = $(PROJ)
 CFLAGS = -c -g -Wall
 ifeq (,$(findstring CYGWIN,$(shell uname)))
   LDFLAGS = -L/opt/local/lib
 else
+  APP = $(PROJ).exe
   LDFLAGS = -L/opt/local/lib -enable-auto-import
 endif
 LIBS = -lcppunit -ldl
 
 all: clean $(APP)
 	./$(APP)
+
 $(APP): $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) -o $(APP) $(LIBS)
 
+# See https://www.gnu.org/software/make/manual/html_node/Pattern-Rules.html
 %.o: %.cpp $(HDRS)
 	$(CC) $(CFLAGS) $< -o $@
 
+.PHONY: clean # Execute unconditionally
 clean:
 	rm -f src/*.o tst/*.o *.exe
 
-test:	clean
+.PHONY: test # Execute unconditionally
+test: clean
 	make -f MakeTest all_t

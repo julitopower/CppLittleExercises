@@ -4,6 +4,7 @@ OBJS_T = $(SRCS:.cpp=.o) $(TST:.cpp=.o)
 APP = $(PROJ)_test.exe
 CFLAGS = -c -g -Wall -DTEST
 
+.PHONY: all_t
 all_t: $(APP)
 	./$(APP)
 
