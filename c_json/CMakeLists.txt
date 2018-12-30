@@ -3,7 +3,12 @@
 ################################################################################
 CMAKE_minimum_required(VERSION 3.0)
 
-project(json)
+project(json LANGUAGES C)
+set(CMAKE_C_STANDARD 99)
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif()
 
 add_library(cjson SHARED cJSON.c)
 

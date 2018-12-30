@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "cJSON.h"
 
 int main(int argc, char *argv[argc])
@@ -12,19 +13,19 @@ int main(int argc, char *argv[argc])
   // Parse json and obtain root node. We are reponsible from calling
   // cJSON_Delete(root) in order to release all resources associated
   // with it
-  cJSON* r =  cJSON_Parse(json);
+  cJSON* root =  cJSON_Parse(json);
 
   // Print the two key/value pairs available
-  printf("%s, %s\n", r->child->string, r->child->valuestring);
-  printf("%s, %s\n", r->child->next->string, r->child->next->valuestring);
+  printf("%s, %s\n", root->child->string, root->child->valuestring);
+  printf("%s, %s\n", root->child->next->string, root->child->next->valuestring);
 
   // Specifically get the "key" and "key2" children
-  cJSON* key = cJSON_GetObjectItem(r, "key");
+  cJSON* key = cJSON_GetObjectItem(root, "key");
   printf("%s, %s\n", key->string, key->valuestring);
-  cJSON* key2 = cJSON_GetObjectItem(r, "key2");
+  cJSON* key2 = cJSON_GetObjectItem(root, "key2");
   printf("%s, %s\n", key2->string, key2->valuestring);
 
   // Ensure resources get deleted
-  cJSON_Delete(r);
+  cJSON_Delete(root);
   return 0;
 }
