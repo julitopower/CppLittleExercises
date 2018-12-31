@@ -21,12 +21,11 @@ typedef struct Human {
 
 int main(int argc, char *argv[argc])
 {
-
   // This is our map
   Human* humansmap = NULL;
 
   // This is an element we insert
-  Human h = {0, "Julio", "Delgado"};
+  Human h = {0, "Name", "Smith"};
   HASH_ADD_INT(humansmap, id, &h);
 
   // We can also insert dynamic memory members
@@ -35,9 +34,8 @@ int main(int argc, char *argv[argc])
   h2->first_name = "Crazy";
   h2->last_name = "Surname";
   HASH_ADD_INT(humansmap, id, h2);
-  printf("Hi there");
 
-  Human* out;
+  Human* out = NULL;
   int key = 0;
   HASH_FIND_INT(humansmap, &key, out);
   printf("Name: %s, Last Name: %s\n", out->first_name, out->last_name);
@@ -48,5 +46,6 @@ int main(int argc, char *argv[argc])
    
   HASH_DEL(humansmap, &h);
   HASH_DEL(humansmap, h2);
+  free(h2);
   return 0;
 }
