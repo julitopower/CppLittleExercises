@@ -10,12 +10,12 @@
 class Observable;
 
 class Observer {
-    private:
-        std::auto_ptr<Observable *> observable;
     public:
         void notify(Event & event);
         Observer();
         ~Observer();
+    private:
+        std::unique_ptr<Observable *> observable;  
 };
 
 

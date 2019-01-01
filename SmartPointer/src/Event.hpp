@@ -3,12 +3,12 @@
 #include <string>
 
 class Event {
-    private:
-        int type;
-        std::string message;
     public:
-        Event(int eventType, std::string eventMessage);
+        explicit Event(int eventType, std::string eventMessage);
+  
+    private:
+        std::int64_t type_;
+        std::string message_;  
 };
-
 
 #endif // EVENT_HPP_INCLUDED
