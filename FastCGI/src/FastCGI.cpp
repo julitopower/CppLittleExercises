@@ -33,7 +33,7 @@ int main(void) {
              << "  </head>\n"
              << "  <body>\n"
              << "    <h1>Hello, World!</h1>\n"
-	     << "    " << count++ << "\n"
+             << "    " << count++ << "\n"
              << "  </body>\n"
              << "</html>\n";
 

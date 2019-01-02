@@ -17,7 +17,7 @@ CC = g++
 OBJS = $(SRCS:.cpp=.o)
 
 # Name of the application
-APP = $(PROJ).exe
+APP = $(PROJ)
 
 # Compiler flags, warning optmizations, etc...
 CFLAGS = -c -g -Wall
@@ -25,11 +25,12 @@ CFLAGS = -c -g -Wall
 ifeq (,$(findstring CYGWIN,$(shell uname)))
   LDFLAGS = -L/opt/local/lib
 else
+  APP = $(PROJ).exe
   LDFLAGS = -L/opt/local/lib -enable-auto-import
 endif
 
 # Libraries to link with
-LIBS = -lcppunit -ldl -lGL -lGLU -lglut -lfcgi -lfcgi++
+LIBS = -lfcgi -lfcgi++
 
 all: clean $(APP)
 	./$(APP)
@@ -39,8 +40,6 @@ $(APP): $(OBJS)
 %.o: %.cpp $(HDRS)
 	$(CC) $(CFLAGS) $< -o $@
 
+.PHONY: clean
 clean:
-	rm -f src/*.o tst/*.o *.exe
-
-test:	clean
-	make -f MakeTest all_t
+	rm -f src/*.o tst/*.o *.exe ${APP}
