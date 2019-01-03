@@ -15,7 +15,7 @@ public:
   using type = int;
 
   // Constructor
-  TreeNode(int value);
+  TreeNode(type value);
 
   // Value accessor
   type GetValue() const;

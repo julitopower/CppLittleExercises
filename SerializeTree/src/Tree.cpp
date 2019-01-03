@@ -1,6 +1,6 @@
 #include "Tree.hpp"
 
-TreeNode::TreeNode(int value) : m_value{value} {};
+TreeNode::TreeNode(type value) : m_value{value} {};
 
 int TreeNode::GetValue() const {
   return m_value;
@@ -14,6 +14,7 @@ void TreeNode::AddChild(TreeNodePtr&& child) {
   m_children.push_back(std::move(child));
 }
 
+// TODO: Complete this code
 void serialize(const TreeNode& node, std::ostream& os) {
   /* Algorithm
 
