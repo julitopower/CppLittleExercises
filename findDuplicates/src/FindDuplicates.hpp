@@ -4,11 +4,10 @@
 #include <list>
 #include <memory>
 
-using namespace std;
-
 class FindDuplicates {
-	public:
-		auto_ptr<list<int>> findDuplicates(list<int> & inputA, list<int> & inputB);
+ public:
+  std::unique_ptr<std::list<int>>
+  findDuplicates(std::list<int> & inputA, std::list<int> & inputB);
 };
 
 #endif

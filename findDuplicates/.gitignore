@@ -2,6 +2,6 @@ TestingQT4*
 *.o
 *.a
 *.cmake
-CMake*
+build
 *Testing*
 *.cbp
