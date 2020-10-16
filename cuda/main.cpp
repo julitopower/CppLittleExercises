@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
   }
   std::vector<float> out(v1.size());
   wrapper::wrapper(v1, v2, out);
+  wrapper::print_cuda_properties();
 
   std::cout << out[N] << std::endl;
   return 0;

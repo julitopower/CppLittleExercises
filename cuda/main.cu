@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "cuda_runtime.h"
+#include <cuda_runtime.h>
 
 
 #include "main.cuh"
@@ -47,5 +47,11 @@ void wrapper(const std::vector<float>& v1,
   gpuCheck(cudaFree(d_v1));
   gpuCheck(cudaFree(d_v2));
   gpuCheck(cudaFree(d_out));
+}
+
+void print_cuda_properties() {
+  cudaDeviceProp props;
+  cudaGetDeviceProperties(&props, 0);
+  fprintf(stdout, "Warp size: %d\n", props.warpSize);
 }
 }
