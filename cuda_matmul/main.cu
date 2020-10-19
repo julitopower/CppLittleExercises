@@ -20,7 +20,7 @@ void matmulV1(const float* a, const float* b, float* c, int i, int j, int k) {
   // Figure out the output element I am writing to
   int col = blockIdx.x * blockDim.x + threadIdx.x;
   int row = blockIdx.y * blockDim.y + threadIdx.y;
-  if (row > i || col > k) {\
+  if (row > i || col > k) {
     return;
   }
 
