@@ -1,12 +1,16 @@
 #include <iostream>
+#include <chrono>
 #include <vector>
 
 #include "main.cuh"
 
 namespace {
-void init(std::vector<float>& v, float value) {
+void init(std::vector<float>& v, float value, bool incremental = true) {
   for (auto it = v.begin() ; it != v.end() ; ++it) {
     *it = value;
+    if (incremental) {
+      value += 1.0;
+    }
   }
 }
 
@@ -37,15 +41,34 @@ int main(int argc, char *argv[])
   std::vector<float> a(row_1 * col_1);
   init(a, 1.0);
   std::vector<float> b(row_2 * col_2);
-  init(b, 2.0);  
+  init(b, 1.0);  
   std::vector<float> c(row_1 * col_2);
   init(c, -1.0);
   
   wrapper::print_cuda_properties();
-  wrapper::matMulV1(a, b, c, row_1, col_1, col_2);
-  print(a);
-  print(b);
-  print(c);
+  {
+    auto start = std::chrono::system_clock::now();
+    wrapper::matMulV1(a, b, c, row_1, col_1, col_2);
+    auto end = std::chrono::system_clock::now();
+    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << "Kernel execution [ms]: " << diff << std::endl;
+  }
+
+  init(a, 1.0);
+  init(b, 1.0);  
+  init(c, -1.0);    
+  
+  {
+    auto start = std::chrono::system_clock::now();
+    wrapper::matMulV2(a, b, c, row_1, col_1, col_2);
+    auto end = std::chrono::system_clock::now();
+    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << "Kernel execution Shared mem [ms]: " << diff << std::endl;
+  }
+
+
+
+
   return 0;
 }
 

@@ -14,6 +14,13 @@ void matMulV1(const std::vector<float>& a,
               int j,
               int k);
 
+void matMulV2(const std::vector<float>& a,
+              const std::vector<float>& b,
+              std::vector<float>& c,              
+              int i,
+              int j,
+              int k);
+
 
 void print_cuda_properties();
 }
