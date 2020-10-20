@@ -2,7 +2,6 @@
 
 #include <cuda_runtime.h>
 
-
 #include "main.cuh"
 
 #define gpuCheck(ans) { gpuAssert((ans), __FILE__, __LINE__); }
@@ -14,6 +13,8 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
       if (abort) exit(code);
    }
 }
+
+namespace {
 
 __global__
 void matmulV1(const float* a, const float* b, float* c, int i, int j, int k) {
@@ -33,14 +34,14 @@ void matmulV1(const float* a, const float* b, float* c, int i, int j, int k) {
   
 }
 
-namespace wrapper {
-
-void matMulV1(const std::vector<float>& a,
+template <typename T>
+void kernelRunner(const std::vector<float>& a,
               const std::vector<float>& b,
               std::vector<float>& c,              
               int i,
               int j,
-              int k) {
+            int k,
+            T fn) {
   const auto a_n = a.size() * sizeof(float);
   const auto b_n = b.size() * sizeof(float);
   const auto c_n = c.size() * sizeof(float);
@@ -60,13 +61,36 @@ void matMulV1(const std::vector<float>& a,
 
   printf("Grid %d, %d, %d\n", dimGrid.x, dimGrid.y, dimGrid.z);
   
-  matmulV1<<<dimGrid, dimBlock>>>(d_a, d_b, d_c, i, j, k);
+  fn<<<dimGrid, dimBlock>>>(d_a, d_b, d_c, i, j, k);
   cudaDeviceSynchronize();
 
   gpuCheck(cudaMemcpy(c.data(), d_c, c_n, cudaMemcpyDeviceToHost));
   gpuCheck(cudaFree(d_a));
   gpuCheck(cudaFree(d_b));
   gpuCheck(cudaFree(d_c));  
+}
+
+} // unnamed namespace
+
+namespace wrapper {
+
+void matMulV1(const std::vector<float>& a,
+              const std::vector<float>& b,
+              std::vector<float>& c,              
+              int i,
+              int j,
+              int k) {
+  kernelRunner(a, b, c, i, j, k, ::matmulV1);
+}
+
+// TODO: hook it up with the kernel that uses shared memory
+void matMulV2(const std::vector<float>& a,
+              const std::vector<float>& b,
+              std::vector<float>& c,              
+              int i,
+              int j,
+              int k) {
+  kernelRunner(a, b, c, i, j, k, ::matmulV1);
 }
 
 void print_cuda_properties() {
