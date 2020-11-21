@@ -7,7 +7,7 @@ int main() {
     const char range = end - init + 1;
 
     // str is the input string, out is the output string
-    const std::string str  {"ab cyz"};
+    const std::string str  {"abacyz"};
     std::string out(str.size(), 'a');
 
     // By how much do we rotate the iput string
