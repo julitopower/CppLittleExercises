@@ -8,6 +8,8 @@
 class TreeNode;
 using TreeNodePtr = std::unique_ptr<TreeNode>;
 
+/*! \brief An n-ary tree of int
+ */
 class TreeNode {
 public:
 
