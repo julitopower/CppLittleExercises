@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <set>
 #include <type_traits>
 #include <cmath>
 
@@ -24,6 +25,10 @@ public:
    *
    * This implementation selects the fastest implementation based on computational
    * complexity calculations.
+   *
+   * TODO: Needs to be revised, since topkbuffer is not pretty much a constant time
+   * operation. By leaving this and the 2 actual implementation in the public interface
+   * we give users flexibility.
    */
   std::vector<T> topk(std::size_t k) {
     const auto n = (end_ - begin_);
@@ -47,31 +52,42 @@ public:
    * each element of the input vector. Algorithm:
    *
    * Use a buffer of k elements to get the topk. This method is faster
-   * than ordering the entire dataset in memory when K < log2(n).
+   * than ordering the entire dataset in memory when K < log2(n). In fact, if
+   * the const function values are uniformely distributed, then this method
+   * performs at constant time, since most of the values are not part of the
+   * topk, a simple comparision value > max_min_topk avoids the costly insertion
+   * deletion in most cases.
    *
    * Use topk instead of this method. Topk automatically selects the fastest
    * implementation based on their computational complexity.
+   *
+   * TODO: Need implementation based on a list with the comparison shortcut
+   * mentioned before.
    */
   std::vector<T> topkbuffer(std::size_t k) {
     // Buffer vector = vector<pair<sort_value, value>>
-    std::vector<std::pair<decltype(fn_(*begin_)), T>> buffer{};
-    std::transform(begin_, begin_ + k + 1, std::back_inserter(buffer),
+    std::multiset<std::pair<decltype(fn_(*begin_)), T>> sbuffer{};
+    std::transform(begin_, begin_ + k + 1, std::inserter(sbuffer, sbuffer.begin()),
                    [this](const T& elem) {
                      // Evaluate each element and build pair<sort_value, value>
                      return std::make_pair(fn_(elem), elem);
                    });
-    
-    std::sort(buffer.begin(), buffer.end());
+
+    auto count = 0U;
     for (auto it = begin_ + k + 1 ; it != end_; ++it) {
-      buffer.back() = std::make_pair(fn_(*it), *it);
-      std::sort(buffer.begin(), buffer.end());      
+      const auto val = fn_(*it);
+      if (val < sbuffer.rbegin()->first) {
+        ++count;
+        sbuffer.erase(--sbuffer.end());
+        sbuffer.insert(std::make_pair(val, *it));
+      }
     }
 
     // Output vector is simply a vector<T> with k elmenets
     std::vector<T> output{};
     // Copy the topk values in the output vector
-    std::transform(buffer.begin(), buffer.end() - 1, std::back_inserter(output),
-                   [](decltype(*buffer.begin()) elem) {
+    std::transform(sbuffer.begin(), --sbuffer.end(), std::back_inserter(output),
+                   [](decltype(*sbuffer.begin()) elem) {
                      return elem.second;
                    });
     return output;

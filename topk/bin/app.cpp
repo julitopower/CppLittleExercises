@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdlib>
 #include <chrono>
+#include <cassert>
 
 #include "topk.hpp"
 
@@ -26,25 +27,31 @@ std::vector<int> generate_test_data(std::size_t n, std::size_t seed = 42) {
 }
 
 int main(int argc, char** argv) {
-  std::cout << "Hi there" << std::endl;
+  std::cout << "Topk algorithm" << std::endl;
 
   const auto size = 10000000;
-  std::vector<int> v = generate_test_data(size, 42);
+  std::vector<int> data = generate_test_data(size, 42);
   auto fn = [](const int& i) {
               return -i;
             };
 
 
-  auto t = topk::buildTopK(v.begin(), v.end(), fn);
+  auto t = topk::buildTopK(data.begin(), data.end(), fn);
 
+  const auto maxk = 30;
+  std::vector<int> mem;
   T_START;
-  t.topkmem(10);
+  mem = t.topkmem(maxk);
   T_END;
     
-  for (auto k = 1 ; k < 30 ; ++k) {
+  for (auto k = 1 ; k <= maxk ; ++k) {
     std::cout << "k: " << k << " - ";
     T_START;
-    t.topk(k);
+    const auto buff = t.topkbuffer(k);
+    // Check that results are the same
+    for (auto i = 0U ; i < k ; ++i) {
+      assert(buff[i] == mem[i]);
+    }
     T_END;
   }
   
