@@ -45,14 +45,23 @@ int main(int argc, char** argv) {
   T_END;
     
   for (auto k = 1 ; k <= maxk ; ++k) {
-    std::cout << "k: " << k << " - ";
+    std::cout << "Set k: " << k << " - ";
     T_START;
-    const auto buff = t.topkbuffer(k);
+    const auto buff = t.topksetbuffer(k);
     // Check that results are the same
     for (auto i = 0U ; i < k ; ++i) {
       assert(buff[i] == mem[i]);
     }
     T_END;
+
+    std::cout << "List k: " << k << " - ";    
+    T_START;
+    const auto buff = t.topklistbuffer(k);
+    // Check that results are the same
+    for (auto i = 0U ; i < k ; ++i) {
+      assert(buff[i] == mem[i]);
+    }
+    T_END;    
   }
   
 }
