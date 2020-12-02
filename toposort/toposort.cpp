@@ -4,6 +4,11 @@
 #include <map>
 #include <set>
 
+/*! \brief Simulated test case class
+ *
+ *  Test cases have dependencies on each other, and we use them to exercise
+ *  out toposort code
+ */
 class Test {
  public:
   Test(std::size_t id) : id_{id}, done_{false} {};
@@ -12,14 +17,14 @@ class Test {
     // Don't add duplicate dependencies
     const auto it = std::find(dependencies_.begin(), dependencies_.end(), id);
     if (it == dependencies_.end()) {
+      // New dependency, add it
       dependencies_.push_back(id);
     }
   }
 
   void add_dependencies(const std::vector<std::size_t>& deps) {
-    for (const auto& dep_id : deps) {
-      add_dependency(dep_id);
-    }
+    std::for_each(deps.begin(), deps.end(),
+                  [this](const auto& id) { add_dependency(id); });
   }
 
   void operator()() {
@@ -45,7 +50,7 @@ std::vector<std::vector<std::size_t>>
 toposort(const std::vector<Test>& tests) {
   // Maps test_id to the tests that depend on it
   std::map<std::size_t, std::vector<std::size_t>> dependents_of;
-  // Maps test_is to the tests it depends on, and are not done
+  // Maps test_id to the number of tests it depends on, and are not done
   std::map<std::size_t, std::size_t> dependencies_of;
   // Current tests without pending dependencies
   std::vector<std::size_t> tests_ready;
