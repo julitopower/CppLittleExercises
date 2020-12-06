@@ -1,13 +1,16 @@
-#include <uthash.h>
 #include <stdio.h>
+
+#include <uthash.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // http://troydhanson.github.io/uthash/userguide.html
 ////////////////////////////////////////////////////////////////////////////////
 
-// This is basically the pair that gets introduced in the map
-// It looks like the intrusive data structures we find in boost
-// or Doom3
+/**
+ * This is basically the pair that gets introduced in the map
+ * It looks like the intrusive data structures we find in boost
+ * or Doom3
+ */
 typedef struct Human {
   // This will be our key
   int id;
