@@ -1,26 +1,49 @@
+#include <memory>
+
+
 #include "IntegerList.hpp"
-#include <iostream>
 
-using namespace std;
-IntegerListNode::IntegerListNode(int value){
-	this->value = value;
-	this->nextNode = 0;
+class IntegerListNode {
+private:
+  int value_;
+  std::unique_ptr<IntegerListNode> nextNode_;
+
+public:
+  IntegerListNode(int value) : value_{value} {};
+  IntegerListNode& next() {
+    return *nextNode_;
+  }
+  
+  int getValue() const {
+    return value_;
+  }
+
+  /**
+   * Takes ownership of the node passed as argument
+   */
+  void addNext(std::unique_ptr<IntegerListNode>&& next) {
+    nextNode_.swap(next);
+  }
+};
+
+void IntegerList::addValue(int value) {
+  auto node = std::make_unique<IntegerListNode>(value);
+  if (!front_) {
+    front_.swap(node);
+    back_ = front_.get();
+  } else {
+    back_->addNext(std::move(node));
+    back_ = &(back_->next());
+  }
 }
 
-IntegerListNode & IntegerListNode::next() {
-	return *(this->nextNode);
-}  
-
-IntegerListNode::~IntegerListNode(){
-	if (this != nextNode) {
-		delete(nextNode);
-	}
+void IntegerList::traverse(std::function<void(int)> fn) const {
+  IntegerListNode* next = front_.get();
+  while (next) {
+    fn(next->getValue());
+    next = &(next->next());
+  }
 }
 
-int IntegerListNode::getValue() {
-	return this->value;
-}
-
-void IntegerListNode::addNext(IntegerListNode & next) {
-	nextNode = &next;
-}
+IntegerList::IntegerList() {}
+IntegerList::~IntegerList() {}
