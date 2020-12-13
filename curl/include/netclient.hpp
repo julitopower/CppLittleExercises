@@ -34,6 +34,10 @@ struct URL {
   std::string host;
   std::size_t port;
   std::string path;
+
+  std::string str() const {
+    return schema + "://" + host + ":" + std::to_string(port) + path;
+  }
 };
 
 
