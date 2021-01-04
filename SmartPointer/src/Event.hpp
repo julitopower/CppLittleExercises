@@ -1,14 +1,14 @@
-#ifndef EVENT_HPP_INCLUDED
-#define EVENT_HPP_INCLUDED
+#pragma once
+
 #include <string>
+#include <ostream>
 
 class Event {
-    public:
-        explicit Event(int eventType, std::string eventMessage);
-  
-    private:
-        std::int64_t type_;
-        std::string message_;  
+public:
+  explicit Event(int eventType, std::string eventMessage);
+  friend std::ostream& operator<<(std::ostream& os, const Event& event);
+private:
+  std::int64_t type_;
+  std::string message_;
 };
 
-#endif // EVENT_HPP_INCLUDED
