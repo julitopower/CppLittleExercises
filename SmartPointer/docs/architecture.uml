@@ -1,0 +1,41 @@
+@startuml
+
+title **Observer pattern using Smart pointers**
+
+' This enables automatic namespace handling. Namespaces
+' get turned into boxes, instead of being displayed as
+' part of names
+set namespaceSeparator .
+allowmixing
+
+class Observer{
++notify(event : Event)
++Observer()
++{static} newPtr() : ObserverPtr
+}
+hide Observer attributes
+class Observable {
+- observers : std::vector<ObserverPtr>
++ Observable()
++ fire() : void
++ addObserver(observer : ObserverPtr) : void
+}
+class Event {
+-id_ : std::int64_t
+-message_ : std::string
++ friend operator<<(...) : std::ostream
+}
+
+class std.shared_ptr<T>
+hide std.shared_ptr members
+class ObserverPtr<Observer><<type_alias>><< (T, orchid) >>
+hide ObserverPtr members
+std.shared_ptr <|-- ObserverPtr
+'Observer <.. ObserverPtr
+
+
+Event <-- Observer
+Event <-- Observable
+Observer <-- Observable
+
+@enduml
