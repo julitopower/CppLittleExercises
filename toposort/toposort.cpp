@@ -56,13 +56,13 @@ toposort(const std::vector<Test>& tests) {
   std::vector<std::size_t> tests_ready;
 
   for (const Test& test : tests) {
-    const std::size_t id = test.id();
+    const std::size_t test_id = test.id();
     if (test.dependencies().size() == 0) {
-      tests_ready.push_back(id);
+      tests_ready.push_back(test_id);
     } else {
       for(const auto& dependency_id : test.dependencies()) {
-        dependents_of[dependency_id].push_back(id);
-        ++dependencies_of[id];
+        dependents_of[dependency_id].push_back(test_id);
+        ++dependencies_of[test_id];
       }
     }
   }
