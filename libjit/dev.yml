@@ -1,0 +1,19 @@
+name: dev-libjit
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8.6
+  - boost=1.73.0
+  - gcc_linux-64
+  - gxx_linux-64  
+  - cmake=3.18.0
+  - emacs
+  - make=4.3
+  - libclang
+  - clangdev
+  - graphviz=2.40
+  - gtest=1.10.0
+  - flex=2.6.4
+  - bison=3.7.4
+  - texinfo
+  
