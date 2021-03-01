@@ -16,5 +16,8 @@ int main(int, char **) {
 
   list.traverse([](auto val) { std::cout << val << " "; });
 
+  list.pop_back();
+  assert(list.size() == N - 1);  
+
   return 0;
 }

@@ -1,5 +1,6 @@
 #include <memory>
 #include <stdexcept>
+#include <type_traits>
 
 #include "IntegerList.hpp"
 
@@ -7,6 +8,7 @@ class IntegerListNode {
 private:
   int value_;
   std::unique_ptr<IntegerListNode> nextNode_;
+  IntegerListNode* prevNode_;
 
 public:
   IntegerListNode(int value) : value_{value} {};
@@ -20,6 +22,9 @@ public:
   void addNext(std::unique_ptr<IntegerListNode> &&next) {
     nextNode_.swap(next);
   }
+
+  IntegerListNode* prevNode() { return prevNode_; }
+  void setPrevNode(IntegerListNode* node) { prevNode_ = node; }
 };
 
 void IntegerList::addValue(int value) {
@@ -28,6 +33,7 @@ void IntegerList::addValue(int value) {
     front_.swap(node);
     back_ = front_.get();
   } else {
+    node->setPrevNode(back_);
     back_->addNext(std::move(node));
     back_ = &(back_->next());
   }
@@ -59,6 +65,21 @@ int IntegerList::back() const {
 }
 
 int IntegerList::size() const { return size_; }
+
+void IntegerList::pop_back() {
+  if (size_ > 0) {
+    if (size_ == 1) {
+      front_.release();
+    } else {
+      IntegerListNode* newBack = back_->prevNode();
+      newBack->addNext(std::unique_ptr<IntegerListNode>());
+      back_ = newBack;
+    }
+    --size_;
+  } else {
+    throw std::logic_error{"List is empty"};
+  }
+}
 
 IntegerList::IntegerList() {}
 IntegerList::~IntegerList() {}

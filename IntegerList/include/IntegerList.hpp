@@ -44,4 +44,6 @@ public:
   int back() const;
   /* Get the number of elements in the queue */
   int size() const;
+  /* Remove the last element inserted */
+  void pop_back();
 };
