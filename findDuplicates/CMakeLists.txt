@@ -1,17 +1,15 @@
 # Specify minimum CMAKE required
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
 
 # Set your project name
 project(FindDupplicates)
+set(CMAKE_CXX_STANDARD 11)
 
 include_directories(src)
 
 # Set the folder to output binaries
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin/)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib/)
-
-# This whole project uses C++11
-set(CMAKE_CXX_FLAGS "-std=c++11")
 
 # Enable Testing
 enable_testing()
