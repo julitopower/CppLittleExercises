@@ -8,6 +8,15 @@
 
 namespace topk {
 
+/*! \brief Utility to get the top-k elements from a container based on a cost function
+ * \tparam Iter Iterator to container. Must be compatible with the std library interator
+ * \tparam Fn Cost function. Must have signature numeric Fn(T&), where T is the type returned
+              by *Iter
+
+   This class implements a variety of methods to retrieve the top-k. Different methods are
+   appropritate for different types of input. For more information read the documentation
+   of each of the topkXXXYYY methods.
+ */
 template <typename Iter, typename Fn>
 class TopK {
 private:
