@@ -1,7 +1,13 @@
 #include <iostream>
 #include <jit/jit.h>
 
-int main(int argc, char *argv[]) {
+/*! \brief Short example of the usage of Libjit
+ *
+ * In this example we dynamically define a function
+ * fn(int a, int b, int c) = a * b * c
+ */
+int main(int argc, char *argv[])
+{
   jit_context_t ctx = jit_context_create();
   jit_context_build_start(ctx);
 
@@ -12,8 +18,7 @@ int main(int argc, char *argv[]) {
   params[1] = jit_type_int;
   params[2] = jit_type_int;
 
-  signature =
-      jit_type_create_signature(jit_abi_cdecl, jit_type_int, params, 3, 1);
+  signature = jit_type_create_signature(jit_abi_cdecl, jit_type_int, params, 3, 1);
   jit_function_t fn = jit_function_create(ctx, signature);
 
   // Now we can define the body of the function
@@ -32,9 +37,9 @@ int main(int argc, char *argv[]) {
   jit_function_compile(fn);
   jit_context_build_end(ctx);
 
-  // Now let's call our function a few times
-  jit_int arg1, arg2, arg3;
-  void *args[3];
+  // Now let's call our function
+  jit_int  arg1, arg2, arg3;
+  void* args[3];
   jit_int result;
 
   arg1 = 3;
