@@ -11,3 +11,10 @@ target_link_libraries(tbooks thrift)
 
 add_executable(app bin/main.cpp)
 target_link_libraries(app thrift tbooks)
+
+add_executable(server src/server.cpp)
+target_link_libraries(server thrift tbooks)
+
+add_executable(client src/client.cpp)
+target_link_libraries(client thrift tbooks)
+
