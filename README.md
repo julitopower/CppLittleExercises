@@ -1,8 +1,4 @@
-CppLittleExercises
-==================
+# CppLittleExercises
 
-A bunch of exercises using Cpp. Some of the use c++11.
+A set of exercises using C and C++ (11/14/17). Each directory is a self contained exercise.
 
-There are also some C examples like:
-
-* c_json: cJSON parser example in C
