@@ -1,8 +1,8 @@
-#include <bits/c++config.h>
+#include <condition_variable>
 #include <functional>
 #include <list>
-#include <thread>
 #include <mutex>
+#include <thread>
 
 using Fn = std::function<void()>;
 
@@ -15,7 +15,7 @@ using Fn = std::function<void()>;
  * activities can be carried out asynchronously.
  */
 class Command {
- public:
+public:
   /*
    * The Function passed must be self contained and if
    * statefull, it must ensure it owns all its state, e.g.
@@ -23,28 +23,28 @@ class Command {
    */
   Command(Fn fn) : fn_(fn) {}
 
-
   /* Commands are executed on a best effort fashion */
   void exec() noexcept {
     try {
       fn_();
-    } catch (...) {}
+    } catch (...) {
+    }
   }
- private:
+
+private:
   Fn fn_;
 };
 
 /*! \brief Queue to communicate consumer and producers of Commands
  */
 class CommandQueue {
- public:
-
+public:
   /*! \brief Get a Command that does nothing*
    *  Each call to this method returns the same command
    *  object.
    */
-  static const Command& noop() {
-    static Command cmd([](){});
+  static const Command &noop() {
+    static Command cmd([]() {});
     return cmd;
   }
 
@@ -52,22 +52,24 @@ class CommandQueue {
    *
    */
   void add(Command cmd) {
-    std::lock_guard<std::mutex> lock{mutex_};
-    queue.push_front(cmd);
+    {
+      std::lock_guard<std::mutex> lock{mutex_};
+      queue.push_front(cmd);
+    }
+    cv.notify_all();
   }
 
   /*! \brief Dequeue a command
    *
    */
   Command get() {
-    std::lock_guard<std::mutex> lock{mutex_};
-    if (!queue.empty()) {
-      auto cmd = queue.back();
-      queue.pop_back();
-      return cmd;
+    std::unique_lock<std::mutex> lk{mutex_};
+    if (size() == 0) {
+      cv.wait(lk, [this]() { return this->size() > 0; });
     }
-    std::this_thread::yield();
-    return CommandQueue::noop();
+    auto cmd = queue.back();
+    queue.pop_back();
+    return cmd;
   }
 
   /*! \brief Elements left in the queue
@@ -75,11 +77,12 @@ class CommandQueue {
    *  This method is not protected by a mutex, and thus
    *  the results may be inconsistent.
    */
-  std::size_t size() const {
-    return queue.size();
-  }
-  
- private:
+  std::size_t size() const { return queue.size(); }
+
+private:
   std::mutex mutex_;
   std::list<Command> queue;
+  // To signal when the queue goes from emtpy
+  // to having some elements
+  std::condition_variable cv;
 };
