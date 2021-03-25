@@ -10,10 +10,9 @@ int main(int argc, char *argv[])
   pipe(fd);
   
   fprintf(stdout, "Starting the application\n");
-
-  auto pid = fork();
   int parent_stdout = dup(1);
   
+  auto pid = fork();
   if (pid == 0) {
     fprintf(stdout, "I am the child\n");
     dup2(fd[0], 0);
@@ -22,16 +21,19 @@ int main(int argc, char *argv[])
     execvp("head", argv);
   } else {
     fprintf(stdout, "I am the parent\n");
-    dup2(fd[1], 1);
-    close(fd[1]);
-    close(fd[0]);
-    execvp("ls", argv);
-    wait(nullptr);    
+    auto pid2 = fork();
+    if (pid2 != 0) {
+      dup2(fd[1], 1);
+      close(fd[1]);
+      close(fd[0]);
+      execvp("ls", argv);
+    }
   }
 
+  wait(nullptr);
+  wait(nullptr);
   dup2(parent_stdout, 1);
   close(parent_stdout);
-  fprintf(stdout, "This should be printed to the terminal\n");
 
   return 0;
 }
