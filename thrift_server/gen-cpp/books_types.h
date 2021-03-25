@@ -24,10 +24,8 @@ namespace store { namespace books {
 class Book;
 
 typedef struct _Book__isset {
-  _Book__isset() : id(false), Title(false), Author(false), numPages(false) {}
+  _Book__isset() : id(false), numPages(false) {}
   bool id :1;
-  bool Title :1;
-  bool Author :1;
   bool numPages :1;
 } _Book__isset;
 

@@ -52,6 +52,8 @@ uint32_t Book::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   using ::apache::thrift::protocol::TProtocolException;
 
+  bool isset_Title = false;
+  bool isset_Author = false;
 
   while (true)
   {
@@ -72,7 +74,7 @@ uint32_t Book::read(::apache::thrift::protocol::TProtocol* iprot) {
       case 2:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->Title);
-          this->__isset.Title = true;
+          isset_Title = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -80,7 +82,7 @@ uint32_t Book::read(::apache::thrift::protocol::TProtocol* iprot) {
       case 3:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
           xfer += iprot->readString(this->Author);
-          this->__isset.Author = true;
+          isset_Author = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -102,6 +104,10 @@ uint32_t Book::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   xfer += iprot->readStructEnd();
 
+  if (!isset_Title)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
+  if (!isset_Author)
+    throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
 
