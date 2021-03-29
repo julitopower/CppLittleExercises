@@ -7,14 +7,11 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    cout << "Hello World!" << endl;
+    cout << "Starting Demo QT application" << endl;
 
     QApplication app(argc, argv);
-
     ui::Window w;
-
     w.show();
-
     return app.exec();
 }
 

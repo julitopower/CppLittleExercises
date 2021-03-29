@@ -38,4 +38,4 @@ void Window::nothing() {
     std::cout << "Doing nothing" << std::endl ;
 }
 
-}
+} // namespace ui

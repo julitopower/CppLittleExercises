@@ -1,5 +1,4 @@
-#ifndef WINDOW_HPP
-#define WINDOW_HPP
+#pragma once
 
 #include <QMainWindow>
 
@@ -25,6 +24,4 @@ private:
 
 };
 
-}
-
-#endif // WINDOW_HPP
+} // namespace ui
